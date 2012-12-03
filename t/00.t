@@ -4,12 +4,13 @@ use strict;
 use warnings;
 use Test::More;
 
-my $pkg;
-BEGIN {
-    $pkg = 'Catmandu::Store::Solr';
-    use_ok $pkg;
-}
+my @pkgs = qw(
+    Catmandu::Store::Solr
+    Catmandu::Store::Solr::Bag
+    Catmandu::Store::Solr::Searcher
+    Catmandu::Store::Solr::CQL
+);
 
-require_ok $pkg;
+require_ok $_ for @pkgs;
 
-done_testing 2;
+done_testing 4;
