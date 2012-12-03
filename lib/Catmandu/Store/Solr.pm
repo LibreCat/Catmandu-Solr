@@ -3,6 +3,7 @@ package Catmandu::Store::Solr;
 use Catmandu::Sane;
 use Moo;
 use WebService::Solr;
+use Catmandu::Store::Solr::Bag;
 
 with 'Catmandu::Store';
 
