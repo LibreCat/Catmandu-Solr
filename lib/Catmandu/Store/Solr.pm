@@ -61,6 +61,17 @@ sub _build_solr {
     WebService::Solr->new($_[0]->url, {autocommit => 0, default_params => {wt => 'json'}});
 }
 
+=head1 SUPPORT
+
+Solr schemas need to support '_id' and '_bag' record fields to be able to
+store Catmandu items.
+
+=head1 METHODS
+
+=head2 new(url => $solr_url)
+
+Create a new Catmandu::Store::Solr store.
+
 =head1 SEE ALSO
 
 L<Catmandu::Store>

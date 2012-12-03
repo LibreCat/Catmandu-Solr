@@ -1,4 +1,4 @@
-package CQL::Solr; #TODO see Catamndu::Store::ElasticSearch::CQL
+package Catmandu::Store::Solr::CQL; #TODO see Catmandu::Store::ElasticSearch::CQL
 
 use strict;
 use warnings;
@@ -132,11 +132,11 @@ sub visit {
 
 =head1 NAME
 
-Catamndu::Store::ElasticSearch::CQL - Converts a CQL query string to a Solr query string
+Catmandu::Store::Solr::CQL - Converts a CQL query string to a Solr query string
 
 =head1 SYNOPSIS
 
-    $solr_query_string = Catamndu::Store::ElasticSearch::CQL->parse($cql_query_string);
+    $solr_query_string = Catmandu::Store::Solr::CQL->parse($cql_query_string);
 
 =head1 DESCRIPTION
 
