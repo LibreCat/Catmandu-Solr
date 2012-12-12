@@ -108,7 +108,12 @@ sub search {
     my $name = $self->name;
 
     if ($args{fq}) {
-        $args{fq} = qq/_bag:"$name" AND ($args{fq})/;
+        if (is_array_ref $args{fq}) {
+            my $fqs = join ' AND ', @{$args{fq}};
+            $args{fq} = qq/_bag:"$name" AND ($fqs)/;
+        } else {
+            $args{fq} = qq/_bag:"$name" AND ($args{fq})/;
+        }
     } else {
         $args{fq} = qq/_bag:"$name"/;
     }
