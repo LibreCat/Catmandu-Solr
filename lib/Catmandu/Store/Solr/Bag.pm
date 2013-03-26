@@ -1,11 +1,12 @@
 package Catmandu::Store::Solr::Bag;
 
 use Catmandu::Sane;
-use Moo;
 use Catmandu::Util qw(:is);
+use Carp qw(confess);
 use Catmandu::Hits;
 use Catmandu::Store::Solr::Searcher;
 use Catmandu::Store::Solr::CQL;
+use Moo;
 
 with 'Catmandu::Bag';
 with 'Catmandu::Searchable';
