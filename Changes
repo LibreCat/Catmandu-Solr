@@ -1,4 +1,7 @@
 Revision history for Catmandu-Store-Solr
 
+0.0201  2013-03-26
+       - import confess
+
 0.02    2012-12-03
        - initial release
