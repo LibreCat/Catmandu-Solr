@@ -16,7 +16,7 @@ my $builder = Module::Build->new(
     },
     requires => {
         'perl' => '5.10.1',
-        'Catmandu' => '0.03',
+        'Catmandu' => '0.7',
         'CQL::Parser' => '1.12',
         'Moo' => '1.00',
         'WebService::Solr' => '0.16',

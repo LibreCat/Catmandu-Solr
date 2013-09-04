@@ -1,5 +1,8 @@
 Revision history for Catmandu-Store-Solr
 
+0.0203  2013-09-04
+       - update dependencies
+
 0.0202  2013-09-02
        - disable facets, spellcheck if not needed
 

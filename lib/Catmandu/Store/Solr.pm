@@ -13,11 +13,11 @@ Catmandu::Store::Solr - A searchable store backed by Solr
 
 =head1 VERSION
 
-Version 0.0202
+Version 0.0203
 
 =cut
 
-our $VERSION = '0.0202';
+our $VERSION = '0.0203';
 
 =head1 SYNOPSIS
 
