@@ -35,7 +35,7 @@ sub count {
     my ($self) = @_;
     my $name = $self->name;
     my $res  = $self->store->solr->search(qq/_bag:"$name"/,
-            {rows => 0, facet => "false", spellcheck => "false"});
+            {rows => 0, facet => "false", spellcheck => "false",defType => "lucene"});
     $res->content->{response}{numFound};
 }
 
@@ -43,7 +43,7 @@ sub get {
     my ($self, $id) = @_;
     my $name = $self->name;
     my $res  = $self->store->solr->search(qq/_bag:"$name" AND _id:"$id"/,
-        {rows => 1, facet => "false", spellcheck => "false"});
+        {rows => 1, facet => "false", spellcheck => "false",defType => "lucene"});
     my $hit  = $res->content->{response}{docs}->[0] || return;
     delete $hit->{_bag};
     $hit;
