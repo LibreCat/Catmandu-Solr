@@ -110,10 +110,16 @@ sub search {
 
     my $name = $self->name;
 
+    my $bag_fq = qq/_bag:"$name"/;
+
     if ($args{fq}) {
-        $args{fq} = qq/_bag:"$name" AND ($args{fq})/;
+        if(is_array_ref($args{fq})){
+            push @{ $args{fq} },$bag_fq;
+        }else{
+            $args{fq} = [$bag_fq,$args{fq}];
+        }
     } else {
-        $args{fq} = qq/_bag:"$name"/;
+        $args{fq} = $bag_fq;
     }
 
     my $res = $self->store->solr->search($query, {%args, start => $start, rows => $limit});
@@ -135,6 +141,9 @@ sub search {
 
     if ($res->facet_counts) {
         $hits->{facets} = $res->facet_counts;
+    }
+    if ($res->spellcheck()) {
+        $hits->{spellcheck} = $res->spellcheck();
     }
 
     $hits;
