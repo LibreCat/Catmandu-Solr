@@ -13,7 +13,7 @@ Catmandu::Store::Solr - A searchable store backed by Solr
 
 =head1 VERSION
 
-Version 0.0204
+Version 0.0205
 
 =cut
 
@@ -58,24 +58,39 @@ has solr => (
     builder => '_build_solr',
 );
 
+has id_field  => (is => 'ro', default => sub { '_id' });
+has bag_field => (is => 'ro', default => sub { '_bag' });
+
 sub _build_solr {
     WebService::Solr->new($_[0]->url, {autocommit => 0, default_params => {wt => 'json'}});
 }
 
 =head1 SUPPORT
 
-Solr schemas need to support '_id' and '_bag' record fields to be able to
-store Catmandu items.
+Solr schemas need to support an identifier field (C<_id> by default) and a bag
+field (C<_bag> by default) to be able to store Catmandu items.
 
-=head1 METHODS
+=head1 CONFIGURATION
 
-=head2 new(url => $solr_url)
+=over
 
-Create a new Catmandu::Store::Solr store.
+=item url
+
+Solr URL (C<http://localhost:8983/solr> by default)
+
+=item id_field
+
+Field that C<_id> is mapped to in Solr
+
+=item bag_field
+
+Field that C<_bag> is mapped to in Solr
+
+=back
 
 =head1 SEE ALSO
 
-L<Catmandu::Store>
+L<Catmandu::Store>, L<WebService::Solr>
 
 =head1 AUTHOR
 
