@@ -93,15 +93,31 @@ sub add {
 sub delete {
     my ($self, $id) = @_;
     my $name = $self->name;
-    $self->store->solr->delete_by_query(qq/_bag:"$name" AND _id:"$id"/);
+    $self->store->solr->delete_by_query(qq/{!type=lucene}_bag:"$name" AND _id:"$id"/);
 }
 
 sub delete_all {
     my ($self) = @_;
     my $name = $self->name;
-    $self->store->solr->delete_by_query(qq/_bag:"$name"/);
+    $self->store->solr->delete_by_query(qq/{!type=lucene}_bag:"$name"/);
 }
+=head1 problem with delete_by_query
 
+    TODO: only permit lucene queries?
+    Reason: when the search handler solrconfig.xml is set like this..
+
+        defType=edismax
+        uf=title,author
+
+    then this query will fail (_bag not in "uf"):
+
+        q=_bag:data AND (*:*)
+
+    but this will fix it
+
+        q={!type=lucene}_bag:data AND (*:*)
+
+=cut
 sub delete_by_query {
     my ($self, %args) = @_;
     my $name = $self->name;
