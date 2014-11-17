@@ -8,6 +8,7 @@ my $builder = Module::Build->new(
     dist_author => [
         'Patrick Hochstenbach <patrick.hochstenbach@ugent.be>',
         'Nicolas Steenlant <nicolas.steenlant@ugent.be>',
+        'Nicolas Franck <nicolas.franck@ugent.be>'
     ],
     build_requires => {
         'Software::License' => 0,
