@@ -8,13 +8,13 @@ Catmandu::Solr - Catmandu modules for working with solr endpoints
 
 =head1 AUTHOR
 
-Nicolas Franck, C<< <nicolas.franck at ugent.be> >>
+Nicolas Franck, C<< nicolas.franck at ugent.be >>
 
 =head1 CONTRIBUTORS
 
-Nicolas Steenlant, C<< <nicolas.steenlant at ugent.be> >>
+Nicolas Steenlant, C<< nicolas.steenlant at ugent.be >>
 
-Patrick Hochstenbach, C<< <patrick.hochstenbach at ugent.be> >>
+Patrick Hochstenbach, C<< patrick.hochstenbach at ugent.be >>
 
 =head1 SYNOPSIS
 
