@@ -1,0 +1,20 @@
+- query bug in solr: https://issues.apache.org/jira/browse/SOLR-5435
+
+	_bag:data AND (rootProcessInstanceId:1 OR processInstanceId:1)
+
+	is not the same as (watch the space after the first bracket)
+
+	_bag:data AND ( rootProcessInstanceId:1 OR processInstanceId:1 )
+
+
+	in case 1, rootProcessInstanceId is not seen as an index, but as regular value, together with 1
+
+	=> parsed query:
+
+		_bag:data AND ( all:rootProcessInstanceId all:1 OR processInstanceId:1 )
+
+
+	fix: Catmandu::Store::Solr::Bag->delete_by_query:
+
+		delete_by_query(query => "_bag:$name AND ($args{query})") => delete_by_query(query => "_bag:$name AND ( $args{query} )")
+

@@ -134,7 +134,7 @@ sub search {
 
     if ( $args{fq} ) {
         if (is_array_ref( $args{fq})) {
-            $args{fq} = [ $bag_fq , @{ $args{fq} } ];            
+            $args{fq} = [ $bag_fq , @{ $args{fq} } ];
         }
         else {
             $args{fq} = [$bag_fq, $args{fq}];
