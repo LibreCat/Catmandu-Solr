@@ -91,7 +91,7 @@ Catmandu::Importer::Solr - Catmandu module to import data from a Solr endpoint
 
 =head1 AUTHOR
 
-    Nicolas Franck, C<< <nicolas.franck at ugent.be> >>
+Nicolas Franck, C<< nicolas.franck at ugent.be >>
 
 =head1 SEE ALSO
 
