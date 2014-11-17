@@ -66,41 +66,36 @@ sub count {
 
 =head1 NAME
 
-Catmandu::Importer::DBI - Catmandu module to import data from any DBI source
+Catmandu::Importer::Solr - Catmandu module to import data from a Solr endpoint
 
 =head1 SYNOPSIS
 
- use Catmandu::Importer::DBI;
+    use Catmandu::Importer::Solr;
 
- my %attrs = (
-        dsn => 'dbi:mysql:foobar' ,
-        user => 'foo' ,
-        password => 'bar' ,
-        query => 'select * from table'
- );
+    my %attrs = (
+        url => "http://localhost:8983/solr",
+        query => 'type:book'
+    );
 
- my $importer = Catmandu::Importer::DBI->new(%attrs);
+    my $importer = Catmandu::Importer::Solr->new(%attrs);
 
- # Optional set extra parameters on the database handle
- # $importer->dbh->{LongReadLen} = 1024 * 64;
-
- $importer->each(sub {
-	my $row_hash = shift;
-	...
- });
+    $importer->each(sub {
+	    my $row_hash = shift;
+	    ...
+    });
 
 
- # or
+    # or
 
- $ catmandu convert DBI --dsn dbi:mysql:foobar --user foo --password bar --query "select * from table"
+    $ catmandu convert Solr --url "http://localhost:8983/solr" --query "type:book"
 
 =head1 AUTHORS
 
- Patrick Hochstenbach, C<< <patrick.hochstenbach at ugent.be> >>
+    Nicolas Franck, C<< <nicolas.franck at ugent.be> >>
 
 =head1 SEE ALSO
 
-L<Catmandu>, L<Catmandu::Importer> , L<Catmandu::Store::DBI>
+L<Catmandu>, L<Catmandu::Importer> , L<Catmandu::Store::Solr>
 
 =cut
 
