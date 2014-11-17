@@ -1,4 +1,4 @@
-Revision history for Catmandu-Store-Solr
+Revision history for Catmandu-Solr
 
 0.0204  2014-03-25
        - fq can be an array ref
