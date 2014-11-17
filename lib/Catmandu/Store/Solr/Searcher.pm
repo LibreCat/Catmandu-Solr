@@ -9,6 +9,7 @@ has bag   => (is => 'ro', required => 1);
 has query => (is => 'ro', required => 1);
 has start => (is => 'ro', required => 1);
 has limit => (is => 'ro', required => 1);
+has sort  => (is => 'ro', required => 0);
 has total => (is => 'ro');
 
 sub generator {
@@ -29,7 +30,7 @@ sub generator {
             if ( $total && $limit > $total ) {
                 $limit = $total;
             }
-            $hits = $store->solr->search($query, {start => $start, rows => $limit, fq => $fq})
+            $hits = $store->solr->search($query, {start => $start, rows => $limit, fq => $fq,sort => $self->sort})
               ->content->{response}{docs};
             $start += $limit;
         }
@@ -50,6 +51,7 @@ sub slice { # TODO constrain total?
         query => $self->query,
         start => $self->start + $start,
         limit => $self->limit,
+        sort => $self->sort,
         total => $total,
     );
 }
