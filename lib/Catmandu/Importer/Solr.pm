@@ -89,7 +89,7 @@ Catmandu::Importer::Solr - Catmandu module to import data from a Solr endpoint
 
     $ catmandu convert Solr --url "http://localhost:8983/solr" --query "type:book"
 
-=head1 AUTHORS
+=head1 AUTHOR
 
     Nicolas Franck, C<< <nicolas.franck at ugent.be> >>
 
