@@ -6,9 +6,11 @@ our $VERSION = "0.0205";
 
   Catmandu::Solr - Catmandu modules for working with solr endpoints
 
-=head1 AUTHOR
+=head1 AUTHORS
 
 Nicolas Franck, C<< <nicolas.franck at ugent.be> >>
+Nicolas Steenlant, C<< <nicolas.steenlant at ugent.be> >>
+Patrick Hochstenbach, C<< <patrick.hochstenbach at ugent.be> >>
 
 =head1 CONTRIBUTORS
 
