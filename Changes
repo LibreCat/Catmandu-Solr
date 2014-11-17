@@ -1,4 +1,7 @@
 Revision history for Catmandu-Solr
+0.0205  2014-11-17
+       - changed distribution name to Catmandu-Solr
+       - added Catmandu::Importer::Solr
 
 0.0204  2014-03-25
        - fq can be an array ref

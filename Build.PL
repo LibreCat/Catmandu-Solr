@@ -13,12 +13,12 @@ my %module_build_args = (
   "configure_requires" => {
     "Module::Build" => "0.3601"
   },
-  "dist_abstract" => "A searchable store backed by Solr",
+  "dist_abstract" => "Catmandu modules for working with solr endpoints",
   "dist_author" => [
     "Nicolas Franck, C<< <nicolas.franck at ugent.be> >>"
   ],
   "dist_name" => "Catmandu-Solr",
-  "dist_version" => "0.0204",
+  "dist_version" => "0.01",
   "license" => "perl",
   "module_name" => "Catmandu::Solr",
   "recommends" => {},
