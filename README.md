@@ -1,6 +1,6 @@
 # NAME
 
-    Catmandu::Solr - Catmandu modules for working with solr endpoints
+Catmandu::Solr - Catmandu modules for working with solr endpoints
 
 # AUTHOR
 
@@ -13,15 +13,15 @@ Patrick Hochstenbach, `<patrick.hochstenbach at ugent.be>`
 
 # SYNOPSIS
 
-    For documentation on these fixes see:
+For documentation on these fixes see:
 
-      L<Catmandu::Store::Solr>
-      L<Catmandu::Importer::Solr>
+[Catmandu::Store::Solr](https://metacpan.org/pod/Catmandu::Store::Solr)
+[Catmandu::Importer::Solr](https://metacpan.org/pod/Catmandu::Importer::Solr)
 
 # SEE ALSO
 
-    L<Catmandu::Store>
-    L<Catmandu>
+[Catmandu::Store](https://metacpan.org/pod/Catmandu::Store)
+[Catmandu](https://metacpan.org/pod/Catmandu)
 
 # LICENSE AND COPYRIGHT
 

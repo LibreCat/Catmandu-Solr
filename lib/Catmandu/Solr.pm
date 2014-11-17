@@ -4,30 +4,31 @@ our $VERSION = "0.0205";
 
 =head1 NAME
 
-  Catmandu::Solr - Catmandu modules for working with solr endpoints
+Catmandu::Solr - Catmandu modules for working with solr endpoints
 
-=head1 AUTHORS
+=head1 AUTHOR
 
 Nicolas Franck, C<< <nicolas.franck at ugent.be> >>
-Nicolas Steenlant, C<< <nicolas.steenlant at ugent.be> >>
-Patrick Hochstenbach, C<< <patrick.hochstenbach at ugent.be> >>
 
 =head1 CONTRIBUTORS
 
 Nicolas Steenlant, C<< <nicolas.steenlant at ugent.be> >>
+
 Patrick Hochstenbach, C<< <patrick.hochstenbach at ugent.be> >>
 
 =head1 SYNOPSIS
 
-  For documentation on these fixes see:
+For documentation on these fixes see:
 
-    L<Catmandu::Store::Solr>
-    L<Catmandu::Importer::Solr>
+L<Catmandu::Store::Solr>
+
+L<Catmandu::Importer::Solr>
 
 =head1 SEE ALSO
 
-  L<Catmandu::Store>
-  L<Catmandu>
+L<Catmandu::Store>
+
+L<Catmandu>
 
 =head1 LICENSE AND COPYRIGHT
 
