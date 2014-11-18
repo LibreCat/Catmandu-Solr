@@ -4,6 +4,8 @@ use strict;
 use warnings;
 use CQL::Parser;
 
+our $VERSION = "0.0206";
+
 my $any_field = qr'^(srw|cql)\.(serverChoice|anywhere)$'i;
 my $match_all = qr'^(srw|cql)\.allRecords$'i;
 my $distance_modifier = qr'\s*\/\s*distance\s*<\s*(\d+)'i;

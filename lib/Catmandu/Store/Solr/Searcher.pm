@@ -3,6 +3,8 @@ package Catmandu::Store::Solr::Searcher;
 use Catmandu::Sane;
 use Moo;
 
+our $VERSION = "0.0206";
+
 with 'Catmandu::Iterable';
 
 has bag   => (is => 'ro', required => 1);
@@ -18,7 +20,8 @@ sub generator {
     my $name   = $self->bag->name;
     my $limit  = $self->limit;
     my $query  = $self->query;
-    my $fq     = qq/_bag:"$name"/;
+    my $bag_field = $self->bag->bag_field;
+    my $fq     = qq/$bag_field:"$name"/;
     sub {
         state $start = $self->start;
         state $total = $self->total;
@@ -38,7 +41,7 @@ sub generator {
             $total--;
         }
         my $hit = shift(@$hits) || return;
-        delete $hit->{_bag};
+        $self->bag->map_fields($hit);
         $hit;
     };
 }
@@ -59,11 +62,12 @@ sub slice { # TODO constrain total?
 sub count {
     my ($self) = @_;
     my $name   = $self->bag->name;
+    my $bag_field = $self->bag->bag_field;
     my $res    = $self->bag->store->solr->search(
         $self->query,
         {
             rows       => 0,
-            fq         => qq/_bag:"$name"/,
+            fq         => qq/$bag_field:"$name"/,
             facet      => "false",
             spellcheck => "false",
             defType    => "lucene",

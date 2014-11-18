@@ -5,7 +5,7 @@ use Catmandu::Store::Solr;
 use Catmandu;
 use Moo;
 
-our $VERSION = '0.01';
+our $VERSION = '0.011';
 
 with 'Catmandu::Importer';
 
@@ -13,6 +13,8 @@ has fq => (is => 'ro');
 has query    => (is => 'ro');
 has url => ( is => 'ro' );
 has bag => ( is => 'ro' );
+has id_field  => (is => 'ro', default => sub { '_id' });
+has bag_field => (is => 'ro', default => sub { '_bag' });
 has _bag  => (
     is       => 'ro',
     lazy     => 1,
@@ -21,7 +23,7 @@ has _bag  => (
 
 sub _build_bag {
     my $self = $_[0];
-    Catmandu::Store::Solr->new( url => $self->url )->bag($self->bag());
+    Catmandu::Store::Solr->new( url => $self->url, bag_field => $self->bag_field, id_field => $self->id_field )->bag($self->bag());
 }
 
 sub generator {
@@ -74,7 +76,9 @@ Catmandu::Importer::Solr - Catmandu module to import data from a Solr endpoint
 
     my %attrs = (
         url => "http://localhost:8983/solr",
-        query => 'type:book'
+        query => 'type:book',
+        bag_field => '_bag',
+        id_field => '_id'
     );
 
     my $importer = Catmandu::Importer::Solr->new(%attrs);

@@ -8,6 +8,8 @@ use Catmandu::Store::Solr::Searcher;
 use Catmandu::Store::Solr::CQL;
 use Moo;
 
+our $VERSION = "0.0206";
+
 with 'Catmandu::Bag';
 with 'Catmandu::Searchable';
 with 'Catmandu::Buffer';
