@@ -15,7 +15,7 @@ my %module_build_args = (
   },
   "dist_abstract" => "Catmandu modules for working with solr endpoints",
   "dist_author" => [
-    "Nicolas Franck, C<< nicolas.franck at ugent.be >>"
+    "Nicolas Steenlant, C<< nicolas.steenlant at ugent.be >>"
   ],
   "dist_name" => "Catmandu-Solr",
   "dist_version" => "0.0205",

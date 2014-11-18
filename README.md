@@ -4,13 +4,11 @@ Catmandu::Solr - Catmandu modules for working with solr endpoints
 
 # AUTHOR
 
-Nicolas Franck, `nicolas.franck at ugent.be`
-
-# CONTRIBUTORS
-
 Nicolas Steenlant, `nicolas.steenlant at ugent.be`
 
 Patrick Hochstenbach, `patrick.hochstenbach at ugent.be`
+
+Nicolas Franck, `nicolas.franck at ugent.be`
 
 # SYNOPSIS
 
