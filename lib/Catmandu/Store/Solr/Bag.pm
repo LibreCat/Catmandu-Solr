@@ -12,12 +12,17 @@ with 'Catmandu::Bag';
 with 'Catmandu::Searchable';
 with 'Catmandu::Buffer';
 
+# not defined as Moo attributes because it may be moved to Catmandu::Bag
+sub bag_field { $_[0]->store->bag_field // '_bag' }
+sub id_field { $_[0]->store->id_field // '_id' }
+
 sub generator {
     my ($self) = @_;
-    my $store  = $self->store;
-    my $name   = $self->name;
-    my $limit  = $self->buffer_size;
-    my $query  = qq/_bag:"$name"/;
+    my $store     = $self->store;
+    my $name      = $self->name;
+    my $limit     = $self->buffer_size;
+    my $bag_field = $self->bag_field;
+    my $query  = qq/$bag_field:"$name"/;
     sub {
         state $start = 0;
         state $hits;
@@ -28,16 +33,17 @@ sub generator {
             $start += $limit;
         }
         my $hit = shift(@$hits) || return;
-        delete $hit->{_bag};
+        $self->map_fields($hit);
         $hit;
     };
 }
 
 sub count {
     my ($self) = @_;
-    my $name   = $self->name;
-    my $res    = $self->store->solr->search(
-        qq/_bag:"$name"/,
+    my $name      = $self->name;
+    my $bag_field = $self->bag_field;
+    my $res = $self->store->solr->search(
+        qq/$bag_field:"$name"/,
         {
             rows       => 0,
             facet      => "false",
@@ -50,9 +56,11 @@ sub count {
 
 sub get {
     my ($self, $id) = @_;
-    my $name = $self->name;
+    my $name      = $self->name;
+    my $id_field  = $self->id_field;
+    my $bag_field = $self->bag_field;
     my $res  = $self->store->solr->search(
-        qq/_bag:"$name" AND _id:"$id"/,
+        qq/$bag_field:"$name" AND $id_field:"$id"/,
         {
             rows       => 1,
             facet      => "false",
@@ -61,17 +69,24 @@ sub get {
         }
     );
     my $hit = $res->content->{response}{docs}->[0] || return;
-    delete $hit->{_bag};
+    $self->map_fields($hit);
     $hit;
 }
 
 sub add {
     my ($self, $data) = @_;
 
-    my @fields = (WebService::Solr::Field->new(_bag => $self->name));
+    my $id_field  = $self->id_field;
+    my $bag_field = $self->bag_field;
+
+    my @fields = (WebService::Solr::Field->new($bag_field => $self->name));
+
+    if (defined $data->{_id}) {
+        push @fields, WebService::Solr::Field->new($id_field => $data->{_id});
+    }
 
     for my $key (keys %$data) {
-        next if $key eq '_bag';
+        next if $key eq $bag_field or $key eq '_id';
         my $val = $data->{$key};
         if (is_array_ref($val)) {
             is_value($_) && push @fields,
@@ -93,13 +108,16 @@ sub add {
 sub delete {
     my ($self, $id) = @_;
     my $name = $self->name;
-    $self->store->solr->delete_by_query(qq/{!type=lucene}_bag:"$name" AND _id:"$id"/);
+    my $id_field  = $self->id_field;
+    my $bag_field = $self->bag_field;
+    $self->store->solr->delete_by_query(qq/{!type=lucene}$bag_field:"$name" AND $id_field:"$id"/);
 }
 
 sub delete_all {
     my ($self) = @_;
     my $name = $self->name;
-    $self->store->solr->delete_by_query(qq/{!type=lucene}_bag:"$name"/);
+    my $bag_field = $self->bag_field;
+    $self->store->solr->delete_by_query(qq/{!type=lucene}$bag_field:"$name"/);
 }
 =head1 problem with delete_by_query
 
@@ -120,8 +138,9 @@ sub delete_all {
 =cut
 sub delete_by_query {
     my ($self, %args) = @_;
-    my $name = $self->name;
-    $self->store->solr->delete_by_query(qq/_bag:"$name" AND ($args{query})/);
+    my $name      = $self->name;
+    my $bag_field = $self->bag_field;
+    $self->store->solr->delete_by_query(qq/$bag_field:"$name" AND ($args{query})/);
 }
 
 sub commit { # TODO better error handling
@@ -144,9 +163,11 @@ sub search {
     my $limit = delete $args{limit};
     my $bag   = delete $args{reify};
 
-    my $name = $self->name;
+    my $name      = $self->name;
+    my $id_field  = $self->id_field;
+    my $bag_field = $self->bag_field;
 
-    my $bag_fq = qq/_bag:"$name"/;
+    my $bag_fq = qq/$bag_field:"$name"/;
 
     if ( $args{fq} ) {
         if (is_array_ref( $args{fq})) {
@@ -164,9 +185,9 @@ sub search {
     my $set = $res->content->{response}{docs};
 
     if ($bag) {
-        $set = [map { $bag->get($_->{_id}) } @$set];
+        $set = [map { $bag->get($_->{$id_field}) } @$set];
     } else {
-        delete $_->{_bag} for @$set;
+        $self->map_fields($_) for (@$set);
     }
 
     my $hits = Catmandu::Hits->new({
@@ -202,6 +223,15 @@ sub translate_cql_query {
 
 sub normalize_query {
     $_[1] || "*:*";
+}
+
+sub map_fields {
+    my ($self, $item) = @_;
+    my $id_field = $self->id_field;
+    if ($id_field ne '_id') {
+        $item->{_id} = delete $_->{$id_field};
+    }
+    delete $item->{$self->bag_field};
 }
 
 =head1 SEE ALSO
