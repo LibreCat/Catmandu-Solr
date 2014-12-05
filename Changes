@@ -1,4 +1,6 @@
 Revision history for Catmandu-Solr
+0.0207  2014-12-05
+       - bug fix: delete by query only supports lucene queries. LocalParams are forbidden
 0.0206  2014-11-18
        - merged pull request from Jakob Voss to make the field '_id' and '_bag' configurable
 
