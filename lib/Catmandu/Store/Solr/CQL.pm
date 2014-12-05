@@ -4,7 +4,7 @@ use strict;
 use warnings;
 use CQL::Parser;
 
-our $VERSION = "0.0206";
+our $VERSION = "0.0207";
 
 my $any_field = qr'^(srw|cql)\.(serverChoice|anywhere)$'i;
 my $match_all = qr'^(srw|cql)\.allRecords$'i;

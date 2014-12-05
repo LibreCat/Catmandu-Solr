@@ -18,7 +18,7 @@ my %module_build_args = (
     "Nicolas Steenlant, C<< nicolas.steenlant at ugent.be >>"
   ],
   "dist_name" => "Catmandu-Solr",
-  "dist_version" => "0.0206",
+  "dist_version" => "0.0207",
   "license" => "perl",
   "module_name" => "Catmandu::Solr",
   "recommends" => {},
