@@ -136,7 +136,9 @@ sub commit { # TODO better error handling
         eval { $solr->add($self->buffer) } or push @{ $err ||= [] }, $@;
         $self->clear_buffer;
     }
-    eval { $solr->commit } or push @{ $err ||= [] }, $@;
+    unless($self->store->{_tx}){
+        eval { $solr->commit } or push @{ $err ||= [] }, $@;
+    }
     !defined $err, $err;
 }
 
