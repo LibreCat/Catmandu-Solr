@@ -1,6 +1,7 @@
 package Catmandu::Store::Solr;
 
 use Catmandu::Sane;
+use Catmandu::Util qw(:is :array);
 use Moo;
 use WebService::Solr;
 use Catmandu::Store::Solr::Bag;
@@ -14,7 +15,7 @@ Catmandu::Store::Solr - A searchable store backed by Solr
 
 =cut
 
-our $VERSION = '0.0208';
+our $VERSION = '0.0209';
 
 =head1 SYNOPSIS
 
@@ -64,6 +65,24 @@ has solr => (
 has id_field  => (is => 'ro', default => sub { '_id' });
 has bag_field => (is => 'ro', default => sub { '_bag' });
 
+has _bags_used => (
+    is => 'ro',
+    lazy => 1,
+    default => sub { []; }
+);
+around 'bag' => sub {
+
+    my $orig = shift;
+    my $self = shift;
+
+    my $bags_used = $self->_bags_used;
+    unless(array_includes($bags_used,$_[0])){
+        push @$bags_used,$_[0];
+    }
+
+    $orig->($self,@_);
+};
+
 sub _build_solr {
     WebService::Solr->new($_[0]->url, {autocommit => 0, default_params => {wt => 'json'}});
 }
@@ -78,9 +97,21 @@ sub transaction {
     my @res;
 
     eval {
+        #mark store as 'in transaction'. All subsequent calls to commit only flushes buffers without setting 'commit' to 'true' in solr
         $self->{_tx} = 1;
+
+        #transaction
         @res = $sub->();
+
+        #flushing buffers of all bags
+        for my $bag_name(@{ $self->_bags_used() }){
+            $self->bag($bag_name)->commit();
+        }
+
+        #commit in solr
         $solr->commit;
+
+        #remove mark 'in transaction'
         $self->{_tx} = 0;
         1;
     } or do {
@@ -124,8 +155,10 @@ When you issue $bag->commit, all changes made in the buffer are sent to solr, al
 So committing in Catmandu merely means flushing changes;-).
 
 When you wrap your subroutine within 'transaction', this behaviour is disabled temporarily.
-You still need to call 'commit', but this only sents the documents to Solr without commit.
 When you call 'die' within the subroutine, a rollback is sent to solr.
+
+Remember that transactions happen at store level: after the transaction, all buffers of all bags are flushed to solr,
+and a commit is issued in solr.
 
 #record 'test' added
 $bag->add({ _id => "test" });
@@ -134,7 +167,6 @@ $bag->commit();
 
 $bag->store->transaction(sub{
     $bag->add({ _id => "test",title => "test" });
-    $bag->commit;
     #call to die: rollback sent to solr
     die("oops, didn't want to do that!");
 });
