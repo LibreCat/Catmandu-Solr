@@ -1,6 +1,6 @@
 package Catmandu::Solr;
 # ABSTRACT: Catmandu modules for working with solr endpoints
-our $VERSION = "0.0208";
+our $VERSION = "0.0209";
 
 =head1 NAME
 
