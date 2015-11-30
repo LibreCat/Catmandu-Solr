@@ -6,9 +6,10 @@ use Carp qw(confess);
 use Catmandu::Hits;
 use Catmandu::Store::Solr::Searcher;
 use Catmandu::Store::Solr::CQL;
+use Catmandu::Error;
 use Moo;
 
-our $VERSION = "0.0207";
+our $VERSION = "0.0210";
 
 with 'Catmandu::Bag';
 with 'Catmandu::Searchable';
@@ -128,7 +129,7 @@ sub delete_by_query {
     $self->store->solr->delete_by_query(qq/$bag_field:"$name" AND ($args{query})/);
 }
 
-sub commit { # TODO better error handling
+sub commit {
     my ($self) = @_;
     my $solr = $self->store->solr;
     my $err;
@@ -139,7 +140,10 @@ sub commit { # TODO better error handling
     unless($self->store->{_tx}){
         eval { $solr->commit } or push @{ $err ||= [] }, $@;
     }
-    !defined $err, $err;
+
+    if(defined $err && $self->store->on_error == 'throw'){
+        Catmandu::Error->throw($err->[0]);
+    }
 }
 
 sub search {

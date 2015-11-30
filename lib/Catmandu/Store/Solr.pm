@@ -15,7 +15,7 @@ Catmandu::Store::Solr - A searchable store backed by Solr
 
 =cut
 
-our $VERSION = '0.0209';
+our $VERSION = '0.0210';
 
 =head1 SYNOPSIS
 
@@ -64,6 +64,14 @@ has solr => (
 
 has id_field  => (is => 'ro', default => sub { '_id' });
 has bag_field => (is => 'ro', default => sub { '_bag' });
+has on_error => (
+    is => 'ro',
+    isa => sub {
+        array_includes([qw(throw ignore)],$_[0]) or die("on_error must be 'throw' or 'ignore'");
+    },
+    lazy => 1,
+    default => sub { "throw" }
+);
 
 has _bags_used => (
     is => 'ro',
@@ -144,6 +152,10 @@ Field that C<_id> is mapped to in Solr
 =item bag_field
 
 Field that C<_bag> is mapped to in Solr
+
+=item on_error
+
+Action to take when records cannot be saved to Solr. Default: throw. Available: ignore.
 
 =back
 

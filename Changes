@@ -1,4 +1,6 @@
 Revision history for Catmandu-Solr
+0.0210  2015-11-30
+       - add option "on_error" to Catmandu::Store::Solr
 0.0209  2015-02-25
        - removed the need to flush buffers within transactions. When the transaction is done, all buffers of all bags are now flushed automatically.
 0.0208  2014-01-26
