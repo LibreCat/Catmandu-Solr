@@ -5,6 +5,7 @@ use Catmandu::Util qw(:is :array);
 use Moo;
 use WebService::Solr;
 use Catmandu::Store::Solr::Bag;
+use Catmandu::Error;
 
 with 'Catmandu::Store';
 #with 'Catmandu::Transactionable';
@@ -126,7 +127,7 @@ sub transaction {
         my $err = $@;
         eval { $solr->rollback };
         $self->{_tx} = 0;
-        die $err;
+        Catmandu::Error->throw($err);
     };
 
     @res;
