@@ -3,7 +3,7 @@ package Catmandu::Store::Solr::Searcher;
 use Catmandu::Sane;
 use Moo;
 
-our $VERSION = "0.0210";
+our $VERSION = "0.0211";
 
 with 'Catmandu::Iterable';
 

@@ -9,7 +9,7 @@ use Catmandu::Store::Solr::CQL;
 use Catmandu::Error;
 use Moo;
 
-our $VERSION = "0.0210";
+our $VERSION = "0.0211";
 
 with 'Catmandu::Bag';
 with 'Catmandu::Searchable';
