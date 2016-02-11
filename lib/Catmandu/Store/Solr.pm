@@ -8,7 +8,6 @@ use Catmandu::Store::Solr::Bag;
 use Catmandu::Error;
 
 with 'Catmandu::Store';
-#with 'Catmandu::Transactionable';
 
 =head1 NAME
 
@@ -144,15 +143,25 @@ field (C<_bag> by default) to be able to store Catmandu items.
 
 =item url
 
-Solr URL (C<http://localhost:8983/solr> by default)
+URL of Solr core
+
+Default: C<http://localhost:8983/solr>
 
 =item id_field
 
-Field that C<_id> is mapped to in Solr
+Name of unique field in Solr core.
+
+Default: C<_id>
+
+This Solr field is mapped to C<_id> when retrieved
 
 =item bag_field
 
-Field that C<_bag> is mapped to in Solr
+Name of field in Solr we can use to split the core into 'bags'.
+
+Default: C<_bag>
+
+This Solr field is mapped to C<_bag> when retrieved
 
 =item on_error
 
@@ -161,6 +170,49 @@ Action to take when records cannot be saved to Solr. Default: throw. Available: 
 =back
 
 =head1 METHODS
+=head2 new( url => $url )
+=head2 new( url => $url, id_field => '_id', bag_field => '_bag' )
+=head2 new( url => $url, bags => { data => { cql_mapping => \%mapping } } )
+
+Creates a new Catmandu::Store::Solr store connected to a Solr core, specificied by $url.
+
+The store supports CQL searches when a cql_mapping is provided. This hash
+contains a translation of CQL fields into Solr searchable fields.
+
+ # Example mapping
+ $cql_mapping = {
+      title => {
+        op => {
+          'any'   => 1 ,
+          'all'   => 1 ,
+          '='     => 1 ,
+          '<>'    => 1 ,
+          'exact' => {field => 'mytitle.exact' }
+        } ,
+        sort  => 1,
+        field => 'mytitle',
+        cb    => ['Biblio::Search', 'normalize_title']
+      }
+ }
+
+The CQL mapping above will support for the 'title' field the CQL operators: any, all, =, <> and exact.
+
+For all the operators the 'title' field will be mapping into the Solr field 'mytitle', except
+for the 'exact' operator. In case of 'exact' we will search the field 'mytitle.exact'.
+
+The CQL has an optional callback field 'cb' which contains a reference to subroutines to rewrite or
+augment the search query. In this case, in the Biblio::Search package there is a normalize_title
+subroutine which returns a string or an ARRAY of string with augmented title(s). E.g.
+
+    package Biblio::Search;
+
+    sub normalize_title {
+       my ($self,$title) = @_;
+       my $new_title =~ s{[^A-Z0-9]+}{}g;
+       $new_title;
+    }
+
+    1;
 
 =head2 transaction
 

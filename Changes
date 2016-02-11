@@ -1,4 +1,7 @@
 Revision history for Catmandu-Solr
+0.0211  2016-02-11
+       - make cql parser object oriënted
+       - add documentation for cql_mapping
 0.0210  2015-11-30
        - add option "on_error" to Catmandu::Store::Solr
 0.0209  2015-02-25
