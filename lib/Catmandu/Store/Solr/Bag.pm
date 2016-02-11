@@ -15,6 +15,8 @@ with 'Catmandu::Bag';
 with 'Catmandu::Searchable';
 with 'Catmandu::Buffer';
 
+has cql_mapping => (is => 'ro');
+
 # not defined as Moo attributes because it may be moved to Catmandu::Bag
 sub bag_field { $_[0]->store->bag_field // '_bag' }
 sub id_field { $_[0]->store->id_field // '_id' }
@@ -205,11 +207,33 @@ sub searcher {
 }
 
 sub translate_sru_sortkeys {
-    confess 'TODO';
+    my ($self, $sortkeys) = @_;
+    join(',', grep { defined $_ } map { $self->_translate_sru_sortkey($_) } split /\s+/, $sortkeys);
 }
-
+sub _translate_sru_sortkey {
+    my ($self, $sortkey) = @_;
+    my ($field, $schema, $asc) = split /,/, $sortkey;
+    $field || return;
+    if (my $map = $self->cql_mapping) {
+        $field = lc $field;
+        $field =~ s/(?<=[^_])_(?=[^_])//g if $map->{strip_separating_underscores};
+        $map = $map->{indexes} || return;
+        $map = $map->{$field}  || return;
+        $map->{sort} || return;
+        if (ref $map->{sort} && $map->{sort}{field}) {
+            $field = $map->{sort}{field};
+        } elsif (ref $map->{field}) {
+            $field = $map->{field}->[0];
+        } elsif ($map->{field}) {
+            $field = $map->{field};
+        }
+    }
+    $asc //= 1;
+    "${field} ".($asc ? "asc" : "desc");
+}
 sub translate_cql_query {
-    Catmandu::Store::Solr::CQL->parse($_[1]);
+    my($self,$query) = @_;
+    Catmandu::Store::Solr::CQL->new(mapping => $self->cql_mapping)->parse($query);
 }
 
 sub normalize_query {
