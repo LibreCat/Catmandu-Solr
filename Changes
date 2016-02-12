@@ -1,4 +1,6 @@
 Revision history for Catmandu-Solr
+0.0212  2016-02-12
+       - set query type in filters explicit to lucene
 0.0211  2016-02-11
        - make cql parser object oriënted
        - add documentation for cql_mapping
