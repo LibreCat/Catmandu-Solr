@@ -59,7 +59,6 @@ sub generator {
 	}
 }
 
-#TODO: count
 sub count {
     my ( $self ) = @_;
     $self->bag()->search( query => $self->query, fq => $self->fq, limit => 0 )->total();

@@ -32,9 +32,13 @@ sub generator {
         state $start = 0;
         state $hits;
         unless ($hits && @$hits) {
-            $hits =
-              $store->solr->search($query, {start => $start, rows => $limit})
-              ->content->{response}{docs};
+            $hits = $store->solr->search($query, {
+                start => $start,
+                rows => $limit,
+                defType => "lucene",
+                facet      => "false",
+                spellcheck => "false"
+            })->content->{response}{docs};
             $start += $limit;
         }
         my $hit = shift(@$hits) || return;
@@ -160,7 +164,7 @@ sub search {
     my $id_field  = $self->id_field;
     my $bag_field = $self->bag_field;
 
-    my $bag_fq = qq/$bag_field:"$name"/;
+    my $bag_fq = qq/{!type=lucene}$bag_field:"$name"/;
 
     if ( $args{fq} ) {
         if (is_array_ref( $args{fq})) {

@@ -21,7 +21,7 @@ sub generator {
     my $limit  = $self->limit;
     my $query  = $self->query;
     my $bag_field = $self->bag->bag_field;
-    my $fq     = qq/$bag_field:"$name"/;
+    my $fq     = qq/{!type=lucene}$bag_field:"$name"/;
     sub {
         state $start = $self->start;
         state $total = $self->total;
@@ -33,8 +33,14 @@ sub generator {
             if ( $total && $limit > $total ) {
                 $limit = $total;
             }
-            $hits = $store->solr->search($query, {start => $start, rows => $limit, fq => $fq,sort => $self->sort})
-              ->content->{response}{docs};
+            $hits = $store->solr->search($query, {
+                start => $start,
+                rows => $limit,
+                fq => $fq,
+                sort => $self->sort,
+                facet => "false",
+                spellcheck => "false"
+            })->content->{response}{docs};
             $start += $limit;
         }
         if ($total) {
@@ -46,7 +52,7 @@ sub generator {
     };
 }
 
-sub slice { # TODO constrain total?
+sub slice {
     my ($self, $start, $total) = @_;
     $start //= 0;
     $self->new(
@@ -67,10 +73,9 @@ sub count {
         $self->query,
         {
             rows       => 0,
-            fq         => qq/$bag_field:"$name"/,
+            fq         => qq/{!type=lucene}$bag_field:"$name"/,
             facet      => "false",
-            spellcheck => "false",
-            defType    => "lucene",
+            spellcheck => "false"
         }
     );
     $res->content->{response}{numFound};
