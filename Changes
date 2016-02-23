@@ -1,4 +1,7 @@
 Revision history for Catmandu-Solr
+0.0213  2016-02-23
+       - Catmandu::Store::Solr has role Catmandu::Transactional
+       - dependency on Catmandu 1.0
 0.0212  2016-02-12
        - set query type in filters explicit to lucene
 0.0211  2016-02-11
