@@ -8,6 +8,7 @@ use Catmandu::Store::Solr::Bag;
 use Catmandu::Error;
 
 with 'Catmandu::Store';
+with 'Catmandu::Transactional';
 
 =head1 NAME
 
