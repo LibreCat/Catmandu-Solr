@@ -1,4 +1,8 @@
 Revision history for Catmandu-Solr
+
+{{$NEXT}}
+       - normalize_query now delivers explicit lucene query to match all documents
+
 0.0213  2016-02-23
        - Catmandu::Store::Solr has role Catmandu::Transactional
        - dependency on Catmandu 1.0

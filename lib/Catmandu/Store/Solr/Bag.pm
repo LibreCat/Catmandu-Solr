@@ -241,7 +241,7 @@ sub translate_cql_query {
 }
 
 sub normalize_query {
-    $_[1] || "*:*";
+    $_[1] || "{!type=lucene}*:*";
 }
 
 sub map_fields {
