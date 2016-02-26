@@ -1,6 +1,10 @@
 Revision history for Catmandu-Solr
 
 {{$NEXT}}
+       - add option 'fl' to Catmandu::Store::Solr::Searcher to optimize access
+       - fix bug in Catmandu::Store::Solr::Bag ( 'throw' )
+       - make more store transaction safe
+       - fix bug Catmandu::Importer::Solr->count
 
 0.0214  2016-02-25 14:47:24 CET
        - normalize_query now delivers explicit lucene query to match all documents

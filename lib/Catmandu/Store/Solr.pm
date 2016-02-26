@@ -106,13 +106,18 @@ sub transaction {
     my @res;
 
     eval {
+        #flush buffers of all known bags ( with commit=true ), to ensure correct state
+        for my $bag_name(@{ $self->_bags_used() }){
+            $self->bag($bag_name)->commit();
+        }
+
         #mark store as 'in transaction'. All subsequent calls to commit only flushes buffers without setting 'commit' to 'true' in solr
         $self->{_tx} = 1;
 
         #transaction
         @res = $sub->();
 
-        #flushing buffers of all bags
+        #flushing buffers of all known bags (with commit=false)
         for my $bag_name(@{ $self->_bags_used() }){
             $self->bag($bag_name)->commit();
         }
@@ -125,7 +130,13 @@ sub transaction {
         1;
     } or do {
         my $err = $@;
+        #remove remaining documents from all buffers, because they were added during the transaction
+        for my $bag_name(@{ $self->_bags_used() }){
+            $self->bag($bag_name)->clear_buffer();
+        }
+        #rollback in solr
         eval { $solr->rollback };
+        #remove mark 'in transaction'
         $self->{_tx} = 0;
         Catmandu::Error->throw($err);
     };

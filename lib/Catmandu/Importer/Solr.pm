@@ -20,6 +20,11 @@ has _bag  => (
     lazy     => 1,
     builder  => '_build_bag',
 );
+has fl => (
+    is => 'ro',
+    lazy => 1,
+    default => sub { "*" }
+);
 
 sub _build_bag {
     my $self = $_[0];
@@ -44,6 +49,7 @@ sub generator {
                 fq => $self->fq,
                 start => $start,
                 limit => $limit,
+                fl => $self->fl,
                 facet => "false",
                 spellcheck => "false"
             );
@@ -61,7 +67,7 @@ sub generator {
 
 sub count {
     my ( $self ) = @_;
-    $self->bag()->search( query => $self->query, fq => $self->fq, limit => 0 )->total();
+    $self->_bag()->search( query => $self->query, fq => $self->fq, limit => 0, facet => "false", spellcheck => "false" )->total();
 }
 
 

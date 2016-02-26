@@ -4,6 +4,7 @@ on 'test' => sub {
 	requires 'Software::License','0';
     requires 'Test::Exception','0';
     requires 'Test::More','0';
+    requires 'Catmandu::Store::Hash','0';
 
 };
 requires 'perl','5.10.1';

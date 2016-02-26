@@ -147,7 +147,7 @@ sub commit {
         eval { $solr->commit } or push @{ $err ||= [] }, $@;
     }
 
-    if(defined $err && $self->store->on_error == 'throw'){
+    if(defined $err && $self->store->on_error eq 'throw'){
         Catmandu::Error->throw($err->[0]);
     }
 }
