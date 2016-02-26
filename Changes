@@ -1,6 +1,8 @@
 Revision history for Catmandu-Solr
 
 {{$NEXT}}
+
+0.0215  2016-02-26 15:07:19 CET
        - add option 'fl' to Catmandu::Store::Solr::Searcher to optimize access
        - fix bug in Catmandu::Store::Solr::Bag ( 'throw' )
        - make more store transaction safe
