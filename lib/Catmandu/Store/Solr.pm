@@ -182,8 +182,11 @@ Action to take when records cannot be saved to Solr. Default: throw. Available: 
 =back
 
 =head1 METHODS
+
 =head2 new( url => $url )
+
 =head2 new( url => $url, id_field => '_id', bag_field => '_bag' )
+
 =head2 new( url => $url, bags => { data => { cql_mapping => \%mapping } } )
 
 Creates a new Catmandu::Store::Solr store connected to a Solr core, specificied by $url.
