@@ -1,6 +1,8 @@
 Revision history for Catmandu-Solr
 
 {{$NEXT}}
+
+0.02151  2016-04-21 14:59:26 CEST
        - fix perlpod errors in Catmandu::Store::Solr
 
 0.0215  2016-02-26 15:07:19 CET

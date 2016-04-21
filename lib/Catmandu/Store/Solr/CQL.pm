@@ -8,7 +8,7 @@ use Moo;
 
 with 'Catmandu::Logger';
 
-our $VERSION = "0.0215";
+our $VERSION = "0.02151";
 
 has parser  => (is => 'ro', lazy => 1, builder => '_build_parser');
 has mapping => (is => 'ro');
