@@ -1,6 +1,8 @@
 Revision history for Catmandu-Solr
 
 {{$NEXT}}
+
+0.02152  2016-05-31 13:32:22 CEST
        - method search contains key 'highlighting' now
 
 0.02151  2016-04-21 14:59:26 CEST

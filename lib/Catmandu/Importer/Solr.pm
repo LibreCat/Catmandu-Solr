@@ -5,7 +5,7 @@ use Catmandu::Store::Solr;
 use Catmandu;
 use Moo;
 
-our $VERSION = '0.02151';
+our $VERSION = '0.02152';
 
 with 'Catmandu::Importer';
 
