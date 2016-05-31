@@ -201,6 +201,9 @@ sub search {
     if ($res->spellcheck) {
         $hits->{spellcheck} = $res->spellcheck;
     }
+    if ( $res->content->{highlighting} ) {
+        $hits->{highlighting} = $res->content->{highlighting};
+    }
 
     $hits;
 }
