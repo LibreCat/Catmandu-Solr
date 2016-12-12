@@ -1,6 +1,7 @@
 Revision history for Catmandu-Solr
 
 {{$NEXT}}
+       - fix typo in Catmandu::Store::Solr::SQL that made cql mapping field 'field' impossible
 
 0.02152  2016-05-31 13:32:22 CEST
        - method search contains key 'highlighting' now
