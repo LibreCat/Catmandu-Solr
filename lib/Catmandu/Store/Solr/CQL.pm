@@ -111,7 +111,7 @@ sub visit {
 
                     $qualifier = $op->{field};
 
-                } elsif ($mapping->{field}) {
+                } elsif ($q_mapping->{field}) {
 
                     $qualifier = $q_mapping->{field};
 
