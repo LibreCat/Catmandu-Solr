@@ -1,6 +1,7 @@
 Revision history for Catmandu-Solr
 
 {{$NEXT}}
+       - fix bug that prevents records from last page to be returned
 
 0.02153  2016-12-12 12:24:20 CET
        - fix typo in Catmandu::Store::Solr::SQL that made cql mapping field 'field' impossible

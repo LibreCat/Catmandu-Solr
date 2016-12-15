@@ -40,9 +40,9 @@ sub generator {
         state $total = 100;
         state $hits = [];
 
-        return if $start >= $total;
-
         unless(scalar(@$hits)){
+
+            return if $start >= $total;
 
             my $res = $self->_bag()->search(
                 query => $self->query,
@@ -51,7 +51,8 @@ sub generator {
                 limit => $limit,
                 fl => $self->fl,
                 facet => "false",
-                spellcheck => "false"
+                spellcheck => "false",
+                sort => $self->id_field()." asc"
             );
             $total = $res->total;
             $hits = $res->hits();
