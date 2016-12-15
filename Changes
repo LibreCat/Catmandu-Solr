@@ -1,6 +1,8 @@
 Revision history for Catmandu-Solr
 
 {{$NEXT}}
+
+0.02154  2016-12-15 15:28:58 CET
        - fix bug that prevents records from last page to be returned
 
 0.02153  2016-12-12 12:24:20 CET
