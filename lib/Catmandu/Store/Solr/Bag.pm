@@ -12,7 +12,7 @@ use Moo;
 our $VERSION = "0.02154";
 
 with 'Catmandu::Bag';
-with 'Catmandu::Searchable';
+with 'Catmandu::CQLSearchable';
 with 'Catmandu::Buffer';
 
 has cql_mapping => (is => 'ro');
