@@ -1,6 +1,7 @@
 Revision history for Catmandu-Solr
 
 {{$NEXT}}
+       - use new Catmandu::CQLSearchable role
 
 0.02154  2016-12-15 15:28:58 CET
        - fix bug that prevents records from last page to be returned
