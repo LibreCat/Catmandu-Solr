@@ -8,7 +8,7 @@ on 'test' => sub {
 
 };
 requires 'perl','5.10.1';
-requires 'Catmandu','1.0';
+requires 'Catmandu','>=1.04';
 requires 'CQL::Parser','1.12';
 requires 'Moo','1.00';
 requires 'WebService::Solr','0.16';
