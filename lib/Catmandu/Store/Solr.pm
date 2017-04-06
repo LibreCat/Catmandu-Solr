@@ -3,6 +3,7 @@ package Catmandu::Store::Solr;
 use Catmandu::Sane;
 use Catmandu::Util qw(:is :array);
 use Moo;
+use MooX::Aliases;
 use WebService::Solr;
 use Catmandu::Store::Solr::Bag;
 use Catmandu::Error;
@@ -81,8 +82,8 @@ has solr => (
     builder => '_build_solr',
 );
 
-has id_field  => (is => 'ro', default => sub { '_id' });
-has bag_field => (is => 'ro', default => sub { '_bag' });
+has bag_key => (is => 'lazy', alias => 'bag_field');
+
 has on_error => (
     is => 'ro',
     isa => sub {
@@ -112,6 +113,10 @@ around 'bag' => sub {
 
 sub _build_solr {
     WebService::Solr->new($_[0]->url, {autocommit => 0, default_params => {wt => 'json'}});
+}
+
+sub _build_id_key {
+    $_[0]->key_for('bag');
 }
 
 sub transaction {

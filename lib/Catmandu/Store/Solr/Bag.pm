@@ -8,6 +8,7 @@ use Catmandu::Store::Solr::Searcher;
 use Catmandu::Store::Solr::CQL;
 use Catmandu::Error;
 use Moo;
+use MooX::Aliases;
 
 our $VERSION = "0.03";
 
@@ -17,9 +18,11 @@ with 'Catmandu::Buffer';
 
 has cql_mapping => (is => 'ro');
 
-# not defined as Moo attributes because it may be moved to Catmandu::Bag
-sub bag_field { $_[0]->store->bag_field // '_bag' }
-sub id_field { $_[0]->store->id_field // '_id' }
+has bag_key => (is => 'lazy', alias => 'bag_field');
+
+sub _build_bag_key {
+    $_[0]->store->bag_key;
+}
 
 sub generator {
     my ($self) = @_;
@@ -85,17 +88,12 @@ sub get {
 sub add {
     my ($self, $data) = @_;
 
-    my $id_field  = $self->id_field;
     my $bag_field = $self->bag_field;
 
     my @fields = (WebService::Solr::Field->new($bag_field => $self->name));
 
-    if (defined $data->{_id}) {
-        push @fields, WebService::Solr::Field->new($id_field => $data->{_id});
-    }
-
     for my $key (keys %$data) {
-        next if $key eq $bag_field or $key eq '_id';
+        next if $key eq $bag_field;
         my $val = $data->{$key};
         if (is_array_ref($val)) {
             is_value($_) && push @fields,
@@ -249,10 +247,6 @@ sub normalize_query {
 
 sub map_fields {
     my ($self, $item) = @_;
-    my $id_field = $self->id_field;
-    if ($id_field ne '_id') {
-        $item->{_id} = delete $item->{$id_field};
-    }
     delete $item->{$self->bag_field};
 }
 
