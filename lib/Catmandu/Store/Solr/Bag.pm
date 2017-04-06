@@ -251,7 +251,7 @@ sub map_fields {
     my ($self, $item) = @_;
     my $id_field = $self->id_field;
     if ($id_field ne '_id') {
-        $item->{_id} = delete $_->{$id_field};
+        $item->{_id} = delete $item->{$id_field};
     }
     delete $item->{$self->bag_field};
 }
