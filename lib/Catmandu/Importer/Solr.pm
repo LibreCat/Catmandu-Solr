@@ -78,7 +78,11 @@ Catmandu::Importer::Solr - Catmandu module to import data from a Solr endpoint
 
 =head1 SYNOPSIS
 
-    use Catmandu::Importer::Solr;
+    # From the command line
+    $ catmandu convert Solr --url "http://localhost:8983/solr" --query "type:book"
+
+    # From perl
+    use Catmandu;
 
     my %attrs = (
         url => "http://localhost:8983/solr",
@@ -87,17 +91,12 @@ Catmandu::Importer::Solr - Catmandu module to import data from a Solr endpoint
         id_field => '_id'
     );
 
-    my $importer = Catmandu::Importer::Solr->new(%attrs);
+    my $importer = Catmandu->importer('Solr',%attrs);
 
     $importer->each(sub {
 	    my $row_hash = shift;
 	    ...
     });
-
-
-    # or
-
-    $ catmandu convert Solr --url "http://localhost:8983/solr" --query "type:book"
 
 =head1 AUTHOR
 

@@ -20,6 +20,24 @@ our $VERSION = '0.03';
 
 =head1 SYNOPSIS
 
+    # From the command line
+
+    # Import data into Solr
+    $ catmandu import JSON to Solr  < data.json
+
+    # Export data from ElasticSearch
+    $ catmandu export Solr to JSON > data.json
+
+    # Export only one record
+    $ catmandu export Solr --id 1234
+
+    # Export using an Solr query
+    $ catmandu export Solr --query "name:Recruitment OR name:college"
+
+    # Export using a CQL query (needs a CQL mapping)
+    $ catmandu export Solr --q "name any college"
+
+    # From Perl
     use Catmandu::Store::Solr;
 
     my $store = Catmandu::Store::Solr->new(url => 'http://localhost:8983/solr' );
