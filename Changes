@@ -1,6 +1,8 @@
 Revision history for Catmandu-Solr
 
 {{$NEXT}}
+
+0.0301  2017-04-06 18:15:24 CEST
        - use Catmandu::Bag provided id/key/id_field
 
 0.03  2017-03-23 14:31:04 CET
