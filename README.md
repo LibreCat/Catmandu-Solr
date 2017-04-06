@@ -2,6 +2,25 @@
 
 Catmandu::Solr - Catmandu modules for working with solr endpoints
 
+# SYNOPSIS
+
+    # From the command line
+
+    # Import data into Solr
+    $ catmandu import JSON to Solr  < data.json
+
+    # Export data from ElasticSearch
+    $ catmandu export Solr to JSON > data.json
+
+    # Export only one record
+    $ catmandu export Solr --id 1234
+
+    # Export using an Solr query
+    $ catmandu export Solr --query "name:Recruitment OR name:college"
+
+    # Export using a CQL query (needs a CQL mapping)
+    $ catmandu export Solr --q "name any college"
+
 # AUTHOR
 
 Nicolas Steenlant, `nicolas.steenlant at ugent.be`
