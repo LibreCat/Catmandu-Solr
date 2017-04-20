@@ -299,6 +299,8 @@ Patrick Hochstenbach, C<< patrick.hochstenbach at ugent.be >>
 
 Nicolas Franck, C<< nicolas.franck at ugent.be >>
 
+Pieter De Praetere
+
 =head1 LICENSE AND COPYRIGHT
 
 This program is free software; you can redistribute it and/or modify it
