@@ -1,6 +1,8 @@
 Revision history for Catmandu-Solr
 
 {{$NEXT}}
+
+0.0302  2017-04-20 15:36:51 CEST
        - fix typo
        - more pod
 
