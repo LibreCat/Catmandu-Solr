@@ -115,7 +115,7 @@ sub _build_solr {
     WebService::Solr->new($_[0]->url, {autocommit => 0, default_params => {wt => 'json'}});
 }
 
-sub _build_id_key {
+sub _build_bag_key {
     $_[0]->key_for('bag');
 }
 
