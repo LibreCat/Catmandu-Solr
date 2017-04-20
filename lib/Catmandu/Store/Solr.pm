@@ -115,7 +115,7 @@ sub _build_solr {
     WebService::Solr->new($_[0]->url, {autocommit => 0, default_params => {wt => 'json'}});
 }
 
-sub _build_id_key {
+sub _build_bag_key {
     $_[0]->key_for('bag');
 }
 
@@ -167,10 +167,20 @@ sub transaction {
     @res;
 }
 
-=head1 SUPPORT
+=head1 SOLR SCHEMA
 
-Solr schemas need to support an identifier field (C<_id> by default) and a bag
-field (C<_bag> by default) to be able to store Catmandu items.
+The Solr schema needs to support at least the identifier field (C<_id> by default) and a bag
+field (C<_bag> by default) to be able to store Catmandu items:
+
+    # In schema.xml
+    <field name="_id"  type="string" indexed="true" stored="true" required="true" />
+    <field name="_bag" type="string" indexed="true" stored="true" required="true" />
+
+The names of these fields can optionally be changed using the C<id_field> and C<_bag>
+configuration parameters of L<Catmandu::Store::Solr>.
+
+The C<_id> will contain the record identifier. The C<_bag> field will contain a string
+to support L<Catmandu::Bag>-s in Solr.
 
 =head1 CONFIGURATION
 
@@ -263,18 +273,19 @@ When you call 'die' within the subroutine, a rollback is sent to solr.
 Remember that transactions happen at store level: after the transaction, all buffers of all bags are flushed to solr,
 and a commit is issued in solr.
 
-#record 'test' added
-$bag->add({ _id => "test" });
-#buffer flushed, and 'commit' sent to solr
-$bag->commit();
+    # Record 'test' added
+    $bag->add({ _id => "test" });
 
-$bag->store->transaction(sub{
-    $bag->add({ _id => "test",title => "test" });
-    #call to die: rollback sent to solr
-    die("oops, didn't want to do that!");
-});
+    # Buffer flushed, and 'commit' sent to solr
+    $bag->commit();
 
-#record is still { _id => "test" }
+    $bag->store->transaction(sub{
+        $bag->add({ _id => "test",title => "test" });
+        # Call to die: rollback sent to solr
+        die("oops, didn't want to do that!");
+    });
+
+    # Record is still { _id => "test" }
 
 =head1 SEE ALSO
 
