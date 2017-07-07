@@ -7,6 +7,7 @@ use MooX::Aliases;
 use WebService::Solr;
 use Catmandu::Store::Solr::Bag;
 use Catmandu::Error;
+use LWP::UserAgent;
 
 with 'Catmandu::Store';
 with 'Catmandu::Transactional';
@@ -112,7 +113,11 @@ around 'bag' => sub {
 };
 
 sub _build_solr {
-    WebService::Solr->new($_[0]->url, {autocommit => 0, default_params => {wt => 'json'}});
+    WebService::Solr->new($_[0]->url, {
+        autocommit => 0,
+        default_params => {wt => 'json'},
+        agent => LWP::UserAgent->new( keep_alive => 1 )
+    });
 }
 
 sub _build_bag_key {
