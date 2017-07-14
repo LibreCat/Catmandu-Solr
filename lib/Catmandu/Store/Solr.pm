@@ -76,12 +76,9 @@ our $VERSION = '0.0302';
 =cut
 
 has url => (is => 'ro', default => sub { 'http://localhost:8983/solr' });
+has keep_alive => (is => 'ro', default => sub { 0 });
 
-has solr => (
-    is      => 'ro',
-    lazy    => 1,
-    builder => '_build_solr',
-);
+has solr => (is => 'lazy');
 
 has bag_key => (is => 'lazy', alias => 'bag_field');
 
@@ -99,8 +96,8 @@ has _bags_used => (
     lazy => 1,
     default => sub { []; }
 );
-around 'bag' => sub {
 
+around 'bag' => sub {
     my $orig = shift;
     my $self = shift;
 
@@ -113,10 +110,11 @@ around 'bag' => sub {
 };
 
 sub _build_solr {
+    my($self)=@_;
     WebService::Solr->new($_[0]->url, {
         autocommit => 0,
         default_params => {wt => 'json'},
-        agent => LWP::UserAgent->new( keep_alive => 1 )
+        agent => LWP::UserAgent->new( keep_alive => $self->keep_alive )
     });
 }
 
