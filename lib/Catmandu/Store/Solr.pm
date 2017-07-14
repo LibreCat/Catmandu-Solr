@@ -77,11 +77,8 @@ our $VERSION = '0.0302';
 
 has url        => (is => 'ro', default => sub {'http://localhost:8983/solr'});
 has keep_alive => (is => 'ro', default => sub {0});
-
 has solr => (is => 'lazy');
-
 has bag_key => (is => 'lazy', alias => 'bag_field');
-
 has on_error => (
     is  => 'ro',
     isa => sub {
@@ -91,7 +88,6 @@ has on_error => (
     lazy    => 1,
     default => sub {"throw"}
 );
-
 has _bags_used => (is => 'ro', lazy => 1, default => sub {[];});
 
 around 'bag' => sub {
@@ -113,7 +109,7 @@ sub _build_solr {
         {
             autocommit     => 0,
             default_params => {wt => 'json'},
-            agent => LWP::UserAgent->new(keep_alive => $self->keep_alive)
+            agent => LWP::UserAgent->new(keep_alive => $self->keep_alive),
         }
     );
 }
@@ -133,8 +129,8 @@ sub transaction {
 
     eval {
 #flush buffers of all known bags ( with commit=true ), to ensure correct state
-        for my $bag_name (@{$self->_bags_used()}) {
-            $self->bag($bag_name)->commit();
+        for my $bag_name (@{$self->_bags_used}) {
+            $self->bag($bag_name)->commit;
         }
 
 #mark store as 'in transaction'. All subsequent calls to commit only flushes buffers without setting 'commit' to 'true' in solr
@@ -144,8 +140,8 @@ sub transaction {
         @res = $sub->();
 
         #flushing buffers of all known bags (with commit=false)
-        for my $bag_name (@{$self->_bags_used()}) {
-            $self->bag($bag_name)->commit();
+        for my $bag_name (@{$self->_bags_used}) {
+            $self->bag($bag_name)->commit;
         }
 
         #commit in solr
@@ -158,8 +154,8 @@ sub transaction {
         my $err = $@;
 
 #remove remaining documents from all buffers, because they were added during the transaction
-        for my $bag_name (@{$self->_bags_used()}) {
-            $self->bag($bag_name)->clear_buffer();
+        for my $bag_name (@{$self->_bags_used}) {
+            $self->bag($bag_name)->clear_buffer;
         }
 
         #rollback in solr
