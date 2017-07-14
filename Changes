@@ -1,6 +1,7 @@
 Revision history for Catmandu-Solr
 
 {{$NEXT}}
+       - support http keep-alive
 
 0.0302  2017-04-20 15:36:51 CEST
        - fix typo
