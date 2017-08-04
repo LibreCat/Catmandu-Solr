@@ -145,7 +145,13 @@ around select => sub {
 
     my ($orig, $self, $arg1, $arg2) = @_;
 
-    if ( is_string($arg1) && (is_value($arg2) || is_array_ref($arg2)) ) {
+    my $start = $self->start() // 0;
+
+    if (
+        $start == 0 &&
+        !is_natural( $self->total() ) &&
+        is_string($arg1) && (is_value($arg2) || is_array_ref($arg2))
+    ) {
 
         my $fq = $self->fq;
         $fq = is_string($fq) ? [ $fq ] : is_array_ref( $fq ) ? $fq : [];
