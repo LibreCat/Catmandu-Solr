@@ -289,6 +289,30 @@ and a commit is issued in solr.
 
     # Record is still { _id => "test" }
 
+=head1 INHERITED METHODS
+
+This Catmandu::Store implements:
+
+=over 3
+
+=item L<Catmandu::Store>
+
+=item L<Catmandu::Transactional>
+
+=back
+
+Each Catmandu::Bag in this Catmandu::Store implements:
+
+=over 3
+
+=item L<Catmandu::Bag>
+
+=item L<Catmandu::Searchable>
+
+=item L<Catmandu::CQLSearchable>
+
+=back
+
 =head1 SEE ALSO
 
 L<Catmandu::Store>, L<WebService::Solr>
