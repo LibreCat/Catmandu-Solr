@@ -18,7 +18,7 @@ Catmandu::Store::Solr - A searchable store backed by Solr
 
 =cut
 
-our $VERSION = '0.0302';
+our $VERSION = '0.0303';
 
 =head1 SYNOPSIS
 
