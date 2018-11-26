@@ -70,7 +70,8 @@ our $VERSION = '0.0303';
     $store->bag->each(sub { ... });
     $store->bag->take(10)->each(sub { ... });
 
-    # Some stores can be searched
+    # Search
+    # Any extra arguments will be passed on as is to Solr
     my $hits = $store->bag->search(query => 'name:Patrick');
 
 =cut
