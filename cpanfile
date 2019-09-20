@@ -7,6 +7,7 @@ on 'test' => sub {
     requires 'Catmandu::Store::Hash','0';
 
 };
+requires 'LWP::UserAgent', '0';
 requires 'perl','5.10.1';
 requires 'Catmandu','>=1.0503';
 requires 'CQL::Parser','1.12';
