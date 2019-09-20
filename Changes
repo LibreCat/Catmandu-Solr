@@ -1,6 +1,7 @@
 Revision history for Catmandu-Solr
 
 {{$NEXT}}
+       - add missing dependency
 
 0.0303  2017-10-03 16:55:18 CEST
        - support http keep-alive
