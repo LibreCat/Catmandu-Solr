@@ -59,7 +59,7 @@ sub generator {
 
         shift(@$hits);
 
-        }
+    }
 }
 
 sub count {

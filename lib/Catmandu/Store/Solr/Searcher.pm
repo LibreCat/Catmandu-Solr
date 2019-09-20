@@ -13,7 +13,7 @@ has start => (is => 'ro', required => 1);
 has limit => (is => 'ro', required => 1);
 has sort  => (is => 'ro', required => 0);
 has total => (is => 'ro');
-has fl => (is => 'ro', lazy => 1, default => sub {"*"});
+has fl    => (is => 'ro', lazy     => 1, default => sub {"*"});
 
 sub generator {
     my ($self)    = @_;

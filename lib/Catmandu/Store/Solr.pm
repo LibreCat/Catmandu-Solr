@@ -78,7 +78,7 @@ our $VERSION = '0.0303';
 
 has url        => (is => 'ro', default => sub {'http://localhost:8983/solr'});
 has keep_alive => (is => 'ro', default => sub {0});
-has solr => (is => 'lazy');
+has solr    => (is => 'lazy');
 has bag_key => (is => 'lazy', alias => 'bag_field');
 has on_error => (
     is  => 'ro',
