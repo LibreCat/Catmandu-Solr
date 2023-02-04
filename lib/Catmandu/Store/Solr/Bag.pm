@@ -269,6 +269,10 @@ sub map_fields {
     delete $item->{$self->bag_field};
 }
 
+=head1 NAME
+
+Catmandu::Store::Solr::Bag - Catmandu module to handle SOLR bag objects
+
 =head1 SEE ALSO
 
 L<Catmandu::Bag>, L<Catmandu::Searchable>
